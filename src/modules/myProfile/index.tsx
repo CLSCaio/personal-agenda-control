@@ -9,7 +9,7 @@ import validationSchema from "./validations";
 import { design, inputs } from "./form";
 import { IModalState } from "./interface";
 
-const MyProfile = () => {
+export const MyProfile = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [modal, setModal] = useState<IModalState>({
@@ -115,5 +115,3 @@ const MyProfile = () => {
     </Container>
   );
 };
-
-export default MyProfile;

@@ -1,3 +1,3 @@
-import MyProfile from "../../modules/myProfile";
+import { MyProfile } from "../../modules";
 
 export default MyProfile;

@@ -11,6 +11,10 @@ const routes: Routes[] = [
     label: "Meu Cadastro",
   },
   {
+    href: "/contacts",
+    label: "Contatos",
+  },
+  {
     href: "/",
     label: "Logout",
     onClick: () => logout(),

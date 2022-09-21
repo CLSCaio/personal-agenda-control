@@ -4,15 +4,17 @@ import { MdDeleteForever } from "react-icons/md";
 import { AiOutlineStar, AiFillStar } from "react-icons/ai";
 import { GiPencil } from "react-icons/gi";
 
+import { useRouter } from "next/router";
 import {
   IContacts,
   removeContact,
   removeFavorite,
   saveFavorite,
-  saveContact,
+  saveContact as saveAuthContact,
 } from "../../auth";
 
 import { IModalState } from "../../modules/myProfile/interface";
+import { useStoreContact } from "../../database";
 
 import { defaultIMG } from "./content";
 import { Photo, Img, Title, SubTitle, Personal, Icon, Box } from "./styles";
@@ -26,12 +28,19 @@ export const ContactsOrFavorites = ({
   list,
   favorites,
 }: ContactsOrFavoritesProps) => {
+  const router = useRouter();
+  const { saveContact } = useStoreContact();
   const [isVisible, setIsVisible] = useState(false);
   const [modal, setModal] = useState<IModalState>({
     title: "Error",
     description:
       "Serviço temporariamente indisponivel, por favor tente novamente mais tarde!",
   });
+
+  const edit = () => {
+    saveContact(list);
+    router.push("/registration");
+  };
 
   const favorite = async () => {
     try {
@@ -40,14 +49,14 @@ export const ContactsOrFavorites = ({
           ...list,
           privado: true,
         });
-        await saveContact({ ...list, privado: true });
+        await saveAuthContact({ ...list, privado: true });
         setModal({
           title: "Sucess",
           description: "Contato salvo nos favoritos com sucesso.",
         });
       } else {
         await removeFavorite(list.id);
-        await saveContact({ ...list, privado: false });
+        await saveAuthContact({ ...list, privado: false });
         setModal({
           title: "Sucess",
           description: "Contato removido dos favoritos com sucesso.",
@@ -109,12 +118,13 @@ export const ContactsOrFavorites = ({
           </Photo>
           <Group direction="column" maxW="max-content">
             <Title>{list.pessoa.nome}</Title>
-            <SubTitle>Contato</SubTitle>
-            <Personal>{list.email || list.telefone}</Personal>
+            <SubTitle>Contatos</SubTitle>
+            <Personal>{list.email}</Personal>
+            <Personal>{list.telefone}</Personal>
           </Group>
         </Group>
         <Group justify="space-evenly">
-          <Icon>
+          <Icon onClick={() => edit()}>
             <GiPencil size={20} className="icon" />
             <Box className="text">Editar</Box>
           </Icon>

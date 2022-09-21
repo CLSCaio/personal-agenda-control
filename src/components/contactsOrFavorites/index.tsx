@@ -12,7 +12,7 @@ import {
   saveContact,
 } from "../../auth";
 
-import { IModalState } from "../../pages/myProfile/interface";
+import { IModalState } from "../../modules/myProfile/interface";
 
 import { defaultIMG } from "./content";
 import { Photo, Img, Title, SubTitle, Personal, Icon, Box } from "./styles";

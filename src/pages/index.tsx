@@ -6,16 +6,11 @@ import { getCookie, IGlobalAuth } from "../auth";
 import { Home, Login } from "../views";
 
 const Base: React.FC = () => {
-  const [cookie, setCookie] = useState<IGlobalAuth | undefined>(undefined);
-
-  useEffect(() => {
-    const cookies = getCookie();
-    setCookie(cookies);
-  }, []);
+  const cookies = getCookie();
 
   return (
     <Container gap={[100, 30]} direction="column">
-      {!cookie ? <Login /> : <Home />}
+      {!cookies ? <Login /> : <Home />}
     </Container>
   );
 };

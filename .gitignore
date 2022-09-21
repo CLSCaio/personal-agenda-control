@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+Teste prático para front-pré
 
 # intallers
 yarn.lock

@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "library-caiol.sousa";
 
-import { Home } from "../layouts";
+import { getCookie, IGlobalAuth } from "../auth";
 
-const Base: React.FC = () => (
-  <Container gap={[30, 30]} direction="column">
-    <h1>Seja bem vindo ao personal-agenda-control</h1>
-    <h2>PROJETO EM DESENVOLVIMENTO</h2>
+import { Home, Login } from "../views";
 
-    <Home />
-  </Container>
-);
+const Base: React.FC = () => {
+  const [cookie, setCookie] = useState<IGlobalAuth | undefined>(undefined);
+
+  useEffect(() => {
+    const cookies = getCookie();
+    setCookie(cookies);
+  }, []);
+
+  return (
+    <Container gap={[100, 30]} direction="column">
+      {!cookie ? <Login /> : <Home />}
+    </Container>
+  );
+};
 
 export default Base;

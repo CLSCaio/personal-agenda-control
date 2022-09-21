@@ -1,13 +1,19 @@
 import { Routes } from "library-caiol.sousa";
+import { logout } from "./services";
 
 const routes: Routes[] = [
   {
     href: "/",
-    label: "HomePage",
+    label: "Home",
   },
   {
-    href: "/teste",
-    label: "teste",
+    href: "/myProfile",
+    label: "Meu Cadastro",
+  },
+  {
+    href: "/",
+    label: "Logout",
+    onClick: () => logout(),
   },
 ];
 

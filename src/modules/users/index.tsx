@@ -2,17 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { Container, Form, Modal } from "library-caiol.sousa";
 
-import { useStoreContact } from "../../database";
-import { getCookie, saveContact } from "../../auth";
+import { getCookie, saveUser } from "../../auth";
 import { Heading } from "../../components";
 
 import validationSchema from "./validations";
 import { IModalState } from "./interface";
 import { design, inputs } from "./form";
 
-export const Registration = () => {
-  const { storeContact } = useStoreContact();
-  const cookie = getCookie();
+export const Users = () => {
   const [loading, setLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [modal, setModal] = useState<IModalState>({
@@ -29,17 +26,20 @@ export const Registration = () => {
   const onSubmit = async () => {
     try {
       setLoading(true);
-      if (storeContact) {
-        await saveContact({
-          ...storeContact,
+
+      saveUser({
+        tipos: ["user"],
+        usuario: {
+          cpf: form.values.cpf,
+          dataNascimento: form.values.brithday,
           email: form.values.email,
+          id: 0,
+          nome: form.values.name,
+          password: form.values.password,
           telefone: form.values.phone,
-          pessoa: {
-            ...storeContact?.pessoa,
-            nome: form.values.name,
-          },
-        });
-      }
+          username: form.values.username,
+        },
+      });
 
       setModal({
         title: "Sucesso",
@@ -60,9 +60,13 @@ export const Registration = () => {
 
   const form = useFormik({
     initialValues: {
-      name: storeContact?.pessoa.nome || "",
-      email: storeContact?.email || "",
-      phone: storeContact?.telefone || "",
+      cpf: "",
+      brithday: "",
+      email: "",
+      name: "",
+      password: "",
+      phone: "",
+      username: "",
     },
     validationSchema,
     validateOnBlur: true,
@@ -72,12 +76,13 @@ export const Registration = () => {
   });
 
   useEffect(() => {
+    const cookie = getCookie();
     if (!cookie?.id) window.location.href = "/";
-  }, [cookie?.id]);
+  }, []);
 
   return (
     <Container gap={[100, 30]} direction="column">
-      <Heading title="Salve seu contato" />
+      <Heading title="Selecione um usuario da lista ou crie um novo." />
 
       <Modal
         isVisible={isVisible}

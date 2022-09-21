@@ -1,7 +1,7 @@
 import { Routes } from "library-caiol.sousa";
 import { logout } from "./services";
 
-const routes: Routes[] = [
+const defaultRoutes: Routes[] = [
   {
     href: "/",
     label: "Home",
@@ -14,6 +14,10 @@ const routes: Routes[] = [
     href: "/contacts",
     label: "Contatos",
   },
+];
+
+export const routes: Routes[] = [
+  ...defaultRoutes,
   {
     href: "/",
     label: "Logout",
@@ -21,4 +25,15 @@ const routes: Routes[] = [
   },
 ];
 
-export default routes;
+export const routesAdmin: Routes[] = [
+  ...defaultRoutes,
+  {
+    href: "/users",
+    label: "Usuarios",
+  },
+  {
+    href: "/",
+    label: "Logout",
+    onClick: () => logout(),
+  },
+];
